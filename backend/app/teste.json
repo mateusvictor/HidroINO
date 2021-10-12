@@ -1,0 +1,18 @@
+[
+    {
+        "prototype_id": 1,
+        "ph": 7.89,
+        "temperature": 21.41,
+        "humidity": 0.91,
+        "id": 1
+    },
+    {
+        "prototype_id": 1,
+        "ph": 7.89,
+        "temperature": 21.41,
+        "humidity": 0.91,
+        "id": 2
+    }
+]
+
+"{\"prototype_id\": 1,\"ph\": 2.12, \"temperature\": 20.40, \"humidity\": 0.90}"
