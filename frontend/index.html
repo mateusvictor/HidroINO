@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hidroino</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta charset="utf-8">
+</head>
+<body>
+	<div class="container">
+		<h1>Sensores</h1>
+		<br>
+		<div class="row">
+			<div class="col-3">
+				<div id="temp" class="gauge" style="width: 324px;--rotation:0deg; --color:#F4654E;">
+					<!-- --background:#e9ecef; -->
+				    <div class="percentage"></div>
+				    <div class="mask"></div>
+				    <h2 class="value">0</h2>
+				</div>
+				<h2>Temperatura</h2>
+			</div>
+			<div class="col-3">
+				<div id="ph" class="gauge" style="width: 324px; --rotation:0deg; --color:#5cb85c;">
+				    <div class="percentage"></div>
+				    <div class="mask"></div>
+				    <h2 class="value">0</h2>
+				</div>
+				<h2>pH</h2>
+			</div>
+			<div class="col-3">
+				<div id="humidity" class="gauge" style="width: 324px; --rotation:0deg; --color:#4E9CF4;">
+				    <div class="percentage"></div>
+				    <div class="mask"></div>
+				    <h2 class="value">0</h2>
+				</div>
+				<h2>Humidade</h2>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="main.js"></script>
+</body>
+</html>
