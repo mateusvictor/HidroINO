@@ -14,14 +14,21 @@ uvicorn --host 0.0.0.0 main.app:app --reload
 
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(
+	title='HidroINO API',
+	description='API designed to receive data from Arduino and serve the front-end application.'
+)
 
 origins = [
 	'http://localhost',
 	'http://192.168.0.17',
 	'http://192.168.0.14',
+	'http://127.0.0.1:54219'
 ]
 
+origins = [
+	'*'
+]
 app.add_middleware(
 	CORSMiddleware,
 	allow_origins=origins,
