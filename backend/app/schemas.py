@@ -3,6 +3,21 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+class StatusCreate(BaseModel):
+	prototype_id: int
+	ph: float
+	temperature: float
+	humidity: Optional[float] = None
+	last_update: str = ''
+
+
+class Status(StatusCreate):
+	id: int
+
+	class Config:
+		orm_mode = True
+
+
 class RecordCreate(BaseModel):
 	prototype_id: int
 	ph: float
@@ -25,6 +40,8 @@ class PrototypeCreate(BaseModel):
 class Prototype(PrototypeCreate):
 	id: int
 	records: List[Record] = []
+	status: List[Status] = {}
+
 
 	class Config:
 		orm_mode = True
