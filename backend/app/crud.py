@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from .db.models import *
-from . import schemas
+from . import schemas, utils
 
 """
 ------------------------ Prototype CRUD functions ------------------------
@@ -42,3 +42,36 @@ def create_record(db: Session, record: schemas.RecordCreate):
 	db.commit()
 	db.refresh(db_record)
 	return db_record
+
+
+"""
+------------------------ Status CRUD functions ------------------------
+"""
+def get_status(db: Session, prototype_id: int):
+	return db.query(Status).filter(Status.prototype_id == prototype_id).first()
+
+
+def create_status(db: Session, prototype_id: int):
+	db_status = Status(
+		prototype_id=prototype_id,
+		ph=0.0,
+		temperature=0.0,
+		humidity=0.0,
+		last_update=utils.str_datetime_now())
+
+	db.add(db_status)
+	db.commit()
+	db.refresh(db_status)
+	return db_status
+
+def update_status(db: Session, prototype_id: int, new_status: schemas.StatusCreate):
+	# db_status = get_status(db=db, prototype_id=prototype_id)
+	db_status = db.query(Status).filter(Status.prototype_id == prototype_id)
+	if db_status.first() is None:
+		db_status = create_status(db=db, prototype_id=prototype_id)
+	else:
+		db_status.update(new_status.dict())
+		db.commit()
+		db_status = get_status(db=db, prototype_id=prototype_id)
+	
+	return db_status
