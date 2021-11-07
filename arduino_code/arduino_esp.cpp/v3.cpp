@@ -6,20 +6,30 @@
 SoftwareSerial Serial1(6, 7); // RX, TX
 #endif
 
-char ssid[] = "homewifi_D96";            // your network SSID (name)
-char pass[] = "16706115";        // your network password
-int status = WL_IDLE_STATUS;     // the Wifi radio's status
+char ssid[] = "homewifi_D96";            
+char pass[] = "16706115";        
+int status = WL_IDLE_STATUS;     
 
 char server[] = "192.168.0.14";
+
+unsigned long lastConnectionTime = 0;         
+const unsigned long postingInterval = 6000; 
+
+WiFiEspClient client;
+
+String contents[] = {
+  "{\"prototype_id\": 1,\"ph\": 2.12, \"temperature\": 20.40, \"humidity\": 82}",
+  "{\"prototype_id\": 1,\"ph\": 13.0, \"temperature\": 30.40, \"humidity\": 10}",
+  "{\"prototype_id\": 1,\"ph\": 1.12, \"temperature\": 10.40, \"humidity\": 50}",
+  "{\"prototype_id\": 1,\"ph\": 7.12, \"temperature\": 5.40, \"humidity\": 95}"
+};
+int counter = 0;
 
 
 void setup()
 {
-  // initialize serial for debugging
   Serial.begin(9600);
-  // initialize serial for ESP module
   Serial1.begin(9600);
-  // initialize ESP module
   WiFi.init(&Serial1);
 
   // check for the presence of the shield
@@ -37,50 +47,59 @@ void setup()
     status = WiFi.begin(ssid, pass);
   }
 
-  // you're connected now, so print out the data
   Serial.println("You're connected to the network");
   
-  //printWifiStatus();
-
+  printWifiStatus();
 }
 
 void loop()
 {
-  // Initialize the Ethernet client object
-  WiFiEspClient client;
-  Serial.println();
-  Serial.println("Starting connection to server...");
+  if (counter > 2000){
+    counter %= 4;
+  }
+  // if there's incoming data from the net connection send it out the serial port
+  // this is for debugging purposes only
+  while (client.available()) {
+    char c = client.read();
+    Serial.write(c);
+  }
 
-  // if you get a connection, report back via serial
+  // if 10 seconds have passed since your last connection,
+  // then connect again and send data
+  if (millis() - lastConnectionTime > postingInterval) {
+    httpPOSTRequest(contents[counter%4]);
+    Serial.println(contents[counter%4]);
+    Serial.println();
+    counter += 1;
+  }
+  
+}
+
+// this method makes a HTTP connection to the server
+void httpPOSTRequest(String content)
+{
+  Serial.println();
+
+  client.stop();
+
   if (client.connect(server, 8000)) {
     Serial.println("Connected to server");
-    // Make a HTTP request
-    String content = "{\"prototype_id\": 1,\"ph\": 2.12, \"temperature\": 20.40, \"humidity\": 0.90}";
+
     client.println("POST /records/ HTTP/1.1");
     client.println("Host: 192.168.0.14:8000");
-    client.println("Accept: */*");
+    //client.println("Accept: */*");
     client.println("Content-Length: " + String(content.length()));
     client.println("Content-Type: application/json");
     client.println();
     client.println(content);
-    //client.println("Connection: close");
-    while (client.available()) {
-      char c = client.read();
-     Serial.write(c);
-    }
 
+    // note the time that the connection was made
+    lastConnectionTime = millis();
   }
-
-
-
-  // if the server's disconnected, stop the client
-  if (!client.connected()) {
-    Serial.println();
-    Serial.println("Disconnecting from server...");
-    client.stop();
+  else {
+    // if you couldn't make a connection 
+    Serial.println("Connection failed");
   }
-
-  delay(5000);
 }
 
 
