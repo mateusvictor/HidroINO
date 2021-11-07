@@ -13,6 +13,7 @@ class Prototype(Base):
 	id = Column(Integer, primary_key=True, index=True)
 	owner_name = Column(String, index=True)
 	records = relationship('Record', back_populates='prototype')
+	status = relationship('Status', back_populates='prototype')
 
 
 class Record(Base):
@@ -25,3 +26,17 @@ class Record(Base):
 	datetime_creation = Column(String, index=True)
 
 	prototype = relationship('Prototype', back_populates='records')
+
+
+class Status(Base):
+	__tablename__ = 'status'
+	id = Column(Integer, primary_key=True, index=True)
+	prototype_id = Column(Integer, ForeignKey('prototypes.id'), unique=True)
+	ph = Column(Float, index=True)
+	temperature = Column(Float, index=True)
+	humidity = Column(Float, index=True)
+	last_update = Column(String, index=True)
+
+	prototype = relationship('Prototype', back_populates='status')
+
+
