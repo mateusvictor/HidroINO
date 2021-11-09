@@ -1,7 +1,8 @@
 # Projeto HidroINO
 
-Repositório contendo a aplicação web do projeto HidroINO e os códigos utilizados no hardware Arduino Uno e no módulo ESP8266. 
-
+Repositório contendo a aplicação web do projeto HidroINO e os códigos utilizados no hardware Arduino Uno e no módulo ESP8266.
+ 
+<!--
 ## Instalação
 - Realize o download do repositório com o git
 
@@ -26,6 +27,7 @@ venv\Scripts\activate.bat
 ```bash
 pip install -r requirements.txt
 ```
+--> 
 
 ## Funcionamento
 
