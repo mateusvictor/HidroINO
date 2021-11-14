@@ -54,7 +54,7 @@ def create_prototype(prototype: schemas.PrototypeCreate, db: Session = Depends(g
 ------------------------ Record model endpoints ------------------------
 """
 @app.get('/records/', response_model=List[schemas.Record], tags=['records'])
-def read_records(prototype_id: int = None, db: Session = Depends(get_db)):
+def read_records(prototype_id: str = None, db: Session = Depends(get_db)):
 	db_prototype = crud.get_prototype(db=db, prototype_id=prototype_id) 
 	if not db_prototype and prototype_id is not None:
 		raise HTTPException(status_code=404, detail='Invalid prototype ID')
@@ -64,7 +64,7 @@ def read_records(prototype_id: int = None, db: Session = Depends(get_db)):
 
 
 @app.get('/record-last/{prototype_id}/', response_model=schemas.Record, tags=['records'])
-def read_last_record(prototype_id: int, db: Session = Depends(get_db)):
+def read_last_record(prototype_id: str, db: Session = Depends(get_db)):
 	db_prototype = crud.get_prototype(db=db, prototype_id=prototype_id) 
 	if not db_prototype:
 		raise HTTPException(status_code=404, detail='Invalid prototype ID')
@@ -85,7 +85,7 @@ def create_record(record: schemas.RecordCreate, db: Session = Depends(get_db)):
 ------------------------ Status model endpoints ------------------------
 """
 @app.get('/status/{prototype_id}/', response_model=schemas.Status, tags=['status'])
-def read_status(prototype_id: int, db: Session = Depends(get_db)):
+def read_status(prototype_id: str, db: Session = Depends(get_db)):
 	db_prototype = crud.get_prototype(db=db, prototype_id=prototype_id) 
 	if not db_prototype and prototype_id is not None:
 		raise HTTPException(status_code=404, detail='Invalid prototype ID')
@@ -95,7 +95,7 @@ def read_status(prototype_id: int, db: Session = Depends(get_db)):
 
 
 @app.put('/status/{prototype_id}/', response_model=schemas.Status, tags=['status'])
-def update_status(prototype_id: int, status: schemas.StatusCreate, db: Session = Depends(get_db)):
+def update_status(prototype_id: str, status: schemas.StatusCreate, db: Session = Depends(get_db)):
 	db_prototype = crud.get_prototype(db=db, prototype_id=prototype_id) 
 	if not db_prototype and prototype_id is not None:
 		raise HTTPException(status_code=404, detail='Invalid prototype ID')
