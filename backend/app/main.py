@@ -75,6 +75,10 @@ def read_last_record(prototype_id: str, db: Session = Depends(get_db)):
 
 @app.post('/records/', response_model=schemas.Record, tags=['records'])
 def create_record(record: schemas.RecordCreate, db: Session = Depends(get_db)):
+	db_prototype = crud.get_prototype(db=db, prototype_id=record.prototype_id) 
+	if not db_prototype:
+		raise HTTPException(status_code=400, detail='Invalid prototype ID')
+	
 	now = datetime.now()
 	record.datetime_creation = now.strftime('%d-%m-%Y %H:%M:%S')
 	return crud.create_record(db=db, record=record)
