@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+import uuid
 from .db.models import *
 from . import schemas, utils
 
@@ -14,7 +15,7 @@ def get_prototype(db: Session, prototype_id: int):
 
 
 def create_prototype(db: Session, prototype: schemas.PrototypeCreate):
-	db_prototype = Prototype(**prototype.dict())
+	db_prototype = Prototype(id=str(uuid.uuid4()), **prototype.dict())
 	db.add(db_prototype)
 	db.commit()
 	db.refresh(db_prototype)

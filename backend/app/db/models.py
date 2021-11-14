@@ -11,7 +11,7 @@ from .database import Base
 
 class Prototype(Base):
 	__tablename__ = 'prototypes'
-	id = Column(String, primary_key=True, index=True, default=str(uuid.uuid4()))
+	id = Column(String, primary_key=True, index=True)#, default=str(uuid.uuid4()))
 	owner_name = Column(String, index=True)
 	records = relationship('Record', back_populates='prototype')
 	status = relationship('Status', back_populates='prototype')
