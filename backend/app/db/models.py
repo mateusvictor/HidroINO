@@ -1,5 +1,6 @@
 from sqlalchemy import Boolean, Column, Integer, Float, String, ForeignKey
 from sqlalchemy.orm import relationship
+import uuid
 from .database import Base
 
 
@@ -10,7 +11,7 @@ from .database import Base
 
 class Prototype(Base):
 	__tablename__ = 'prototypes'
-	id = Column(Integer, primary_key=True, index=True)
+	id = Column(String, primary_key=True, index=True, default=str(uuid.uuid4()))
 	owner_name = Column(String, index=True)
 	records = relationship('Record', back_populates='prototype')
 	status = relationship('Status', back_populates='prototype')
@@ -19,7 +20,7 @@ class Prototype(Base):
 class Record(Base):
 	__tablename__ = 'records'
 	id = Column(Integer, primary_key=True, index=True)
-	prototype_id = Column(Integer, ForeignKey('prototypes.id'))
+	prototype_id = Column(String, ForeignKey('prototypes.id'))
 	ph = Column(Float, index=True)
 	temperature = Column(Float, index=True)
 	humidity = Column(Float, index=True)
@@ -31,7 +32,7 @@ class Record(Base):
 class Status(Base):
 	__tablename__ = 'status'
 	id = Column(Integer, primary_key=True, index=True)
-	prototype_id = Column(Integer, ForeignKey('prototypes.id'), unique=True)
+	prototype_id = Column(String, ForeignKey('prototypes.id'), unique=True)
 	ph = Column(Float, index=True)
 	temperature = Column(Float, index=True)
 	humidity = Column(Float, index=True)
