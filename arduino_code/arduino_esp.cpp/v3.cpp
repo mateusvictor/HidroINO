@@ -7,8 +7,10 @@ SoftwareSerial Serial1(6, 7); // RX, TX
 #endif
 
 char ssid[] = "homewifi_D96";            
-char pass[] = "16706115";        
-int status = WL_IDLE_STATUS;     
+char pass[] = "16706115";
+String prototype_id = "6e647f14-cff0-4205-bafc-c26e0e3deaa8";
+
+int status = WL_IDLE_STATUS;
 
 char server[] = "192.168.0.14";
 
@@ -18,10 +20,13 @@ const unsigned long postingInterval = 6000;
 WiFiEspClient client;
 
 String contents[] = {
-  "{\"prototype_id\": 1,\"ph\": 2.12, \"temperature\": 20.40, \"humidity\": 82}",
-  "{\"prototype_id\": 1,\"ph\": 13.0, \"temperature\": 30.40, \"humidity\": 10}",
-  "{\"prototype_id\": 1,\"ph\": 1.12, \"temperature\": 10.40, \"humidity\": 50}",
-  "{\"prototype_id\": 1,\"ph\": 7.12, \"temperature\": 5.40, \"humidity\": 95}"
+  "{\"prototype_id\": \"6e647f14-cff0-4205-bafc-c26e0e3deaa8\", \"ph\": 2.12, \"temperature\": 20.40, \"humidity\": 82}",
+  "{\"prototype_id\": \"6e647f14-cff0-4205-bafc-c26e0e3deaa8\", \"ph\": 13.0, \"temperature\": 30.40, \"humidity\": 10}",
+  "{\"prototype_id\": \"6e647f14-cff0-4205-bafc-c26e0e3deaa8\", \"ph\": 1.12, \"temperature\": 10.40, \"humidity\": 50}",
+  "{\"prototype_id\": \"6e647f14-cff0-4205-bafc-c26e0e3deaa8\", \"ph\": 7.12, \"temperature\": 50.40, \"humidity\": 95}"
+  //"{\"prototype_id\": \"" + prototype_id + "\", \"ph\": 13.0, \"temperature\": 30.40, \"humidity\": 10}",
+  //"{\"prototype_id\": \"" + prototype_id + "\", \"ph\": 1.12, \"temperature\": 10.40, \"humidity\": 50}",
+  //"{\"prototype_id\": \"" + prototype_id + "\", \"ph\": 7.12, \"temperature\": 5.40, \"humidity\": 95}"
 };
 int counter = 0;
 
@@ -87,7 +92,7 @@ void httpPOSTRequest(String content)
 
     client.println("POST /records/ HTTP/1.1");
     client.println("Host: 192.168.0.14:8000");
-    //client.println("Accept: */*");
+    client.println("Accept: */*");
     client.println("Content-Length: " + String(content.length()));
     client.println("Content-Type: application/json");
     client.println();
