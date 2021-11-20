@@ -3,6 +3,9 @@ import uuid
 from .db.models import *
 from . import schemas, utils
 
+
+MAX_RECORDS_COUNT = 20
+
 """
 ------------------------ Prototype CRUD functions ------------------------
 """
@@ -10,7 +13,7 @@ def get_prototypes(db: Session):
 	return db.query(Prototype).all()
 
 
-def get_prototype(db: Session, prototype_id: int):
+def get_prototype(db: Session, prototype_id: str):
 	return db.query(Prototype).filter(Prototype.id == prototype_id).first()
 
 
@@ -25,34 +28,45 @@ def create_prototype(db: Session, prototype: schemas.PrototypeCreate):
 """
 ------------------------ Record CRUD functions ------------------------
 """
-def get_records(db: Session, prototype_id: int = None):
+def get_records(db: Session, prototype_id: str = None):
 	if prototype_id is None:
 		return db.query(Record).all()
 	return db.query(Record).filter(Record.prototype_id == prototype_id).all()
 	
 
-def get_last_record(db: Session, prototype_id: int):
+def get_last_record(db: Session, prototype_id: str):
 	db_last_record = db.query(Record).filter(Record.prototype_id == prototype_id
 		).order_by(Record.id.desc()).first()
 
 	return db_last_record
 
+
+def delete_records(db: Session, prototype_id: str):
+	stmt = Record.__table__.delete().where(Record.prototype_id == prototype_id)
+	db.execute(stmt)
+	db.commit()
+
+
 def create_record(db: Session, record: schemas.RecordCreate):
+	count = len(get_records(db=db, prototype_id=record.prototype_id))
+	print(count)
+	if count > MAX_RECORDS_COUNT:
+		delete_records(db=db, prototype_id=record.prototype_id)
+
 	db_record = Record(**record.dict())
 	db.add(db_record)
 	db.commit()
 	db.refresh(db_record)
 	return db_record
 
-
 """
 ------------------------ Status CRUD functions ------------------------
 """
-def get_status(db: Session, prototype_id: int):
+def get_status(db: Session, prototype_id: str):
 	return db.query(Status).filter(Status.prototype_id == prototype_id).first()
 
 
-def create_status(db: Session, prototype_id: int):
+def create_status(db: Session, prototype_id: str):
 	db_status = Status(
 		prototype_id=prototype_id,
 		ph=0.0,
@@ -65,7 +79,7 @@ def create_status(db: Session, prototype_id: int):
 	db.refresh(db_status)
 	return db_status
 
-def update_status(db: Session, prototype_id: int, new_status: schemas.StatusCreate):
+def update_status(db: Session, prototype_id: str, new_status: schemas.StatusCreate):
 	# db_status = get_status(db=db, prototype_id=prototype_id)
 	db_status = db.query(Status).filter(Status.prototype_id == prototype_id)
 	if db_status.first() is None:
