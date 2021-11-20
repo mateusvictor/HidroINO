@@ -9,7 +9,7 @@ from .db import models
 from .db.database import SessionLocal, engine
 
 '''
-uvicorn --host 0.0.0.0 app.main:app --reload
+uvicorn --host 0.0.0.0 backend.app.main:app --reload
 '''
 
 models.Base.metadata.create_all(bind=engine)
@@ -84,6 +84,11 @@ def create_record(record: schemas.RecordCreate, db: Session = Depends(get_db)):
 	return crud.create_record(db=db, record=record)
 
 
+@app.delete('/records/{prototype_id}/', response_model=[], tags=['records'])
+def delete_records(prototype_id: str, db: Session = Depends(get_db)):
+	db_delete = crud.delete_records(db=db, prototype_id=prototype_id) 
+	return []
+
 
 """
 ------------------------ Status model endpoints ------------------------
@@ -104,7 +109,6 @@ def update_status(prototype_id: str, status: schemas.StatusCreate, db: Session =
 	if not db_prototype and prototype_id is not None:
 		raise HTTPException(status_code=404, detail='Invalid prototype ID')
 
-	print('tamolok')
 	status.last_update = utils.str_datetime_now()	
 	db_status = crud.update_status(db=db, prototype_id=prototype_id, new_status=status)
 	return db_status
