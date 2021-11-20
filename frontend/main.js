@@ -2,14 +2,18 @@
 // Mateus Victor - 2021
 
 const updateTime = 8000 // Intervalo a cada atualização do dashboard em ms
-const prototypeId = 1 // ID do protótipo HidroINO
+const prototypeId = "0239639e-0a79-4038-955b-2a53f265d11e" // ID do protótipo HidroINO
+
+// const url = 'http://localhost:8000/record-last/' + String(prototypeId) + '/'; // Rodando localmente
+const url = 'http://hidroino.herokuapp.com/record-last/' + String(prototypeId) + '/' // Rodando com Heroku
+
+//const prototypeId = 1;
 
 let counter = 1
 
 let main = setInterval(requestAPI, updateTime) // A cada `updateTime` ms a função `requestAPI` é chamada. 	
 function requestAPI(){
 	// Realiza uma requisição do tipo GET e repassa os dados para a função `update`
-	let url = 'http://localhost:8000/status/' + String(prototypeId) + '/';
 	let response;
 	fetch(url)
 	    .then(res => res.json())
