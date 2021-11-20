@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./app/db/db.sqlite3"
+SQLALCHEMY_DATABASE_URL = "sqlite:///./backend/app/db/db.sqlite3"
 
 engine = create_engine(
 	SQLALCHEMY_DATABASE_URL, connect_args={'check_same_thread': False})
