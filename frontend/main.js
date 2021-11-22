@@ -1,8 +1,8 @@
 // main.js
 // Mateus Victor - 2021
 
-const updateTime = 8000 // Intervalo a cada atualização do dashboard em ms
-const prototypeId = "0239639e-0a79-4038-955b-2a53f265d11e" // ID do protótipo HidroINO
+const updateTime = 6000 // Intervalo a cada atualização do dashboard em ms
+const prototypeId = "d4b0bd9b-2e12-48f0-8499-59033384d034" // ID do protótipo HidroINO
 
 // const url = 'http://localhost:8000/record-last/' + String(prototypeId) + '/'; // Rodando localmente
 const url = 'http://hidroino.herokuapp.com/record-last/' + String(prototypeId) + '/' // Rodando com Heroku
@@ -57,6 +57,11 @@ function update(response){
 	moveGauge(tempPercentage, response['temperature'] / 40)
 	moveGauge(phPercentage, response['ph'] / 14)
 	moveGauge(humidityPercentage, response['humidity'] / 100)
+
+	console.log("Counter: ", counter)
+	console.log(response)
+	console.log('\n')
+
 	counter += 1
 }
 
@@ -69,8 +74,6 @@ function moveGauge(actualPercent, toMove){
 
 	let actualDeg = Math.floor(strToFloat(actualPercent.style['transform'])); // Angulação, em graus, da barra de progresso
 	let newDeg = Math.floor(toMove * 180);
-
-	console.log(counter, actualDeg, newDeg)
 
 	let i = 0	
 	if (i == 0){
