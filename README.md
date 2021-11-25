@@ -1,6 +1,13 @@
 # Projeto HidroINO
 
 Repositório contendo a aplicação web do projeto HidroINO e os códigos utilizados no hardware Arduino Uno e no módulo ESP8266.
+
+## Sobre
+
+O projeto HidroINO consiste em um sistema de hidropônico de plantação de baixo custo por técnica de filme de nutrientes, que se baseia na cultura de plantas sem a utilização do solo, ideal para o cultivo de hortaliças de folhas como o alface.
+
+O sistema conta com sensores para o monitoramento do ambiente, cujos dados e informações são disponibilizados em uma interface web que pode ser acessada por qualquer dispositivo que tenha conexão à internet.
+
  
 <!--
 ## Instalação
