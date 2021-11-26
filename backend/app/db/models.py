@@ -25,6 +25,9 @@ class Record(Base):
 	temperature = Column(Float, index=True)
 	humidity = Column(Float, index=True)
 	datetime_creation = Column(String, index=True)
+	device1 = Column(Boolean, index=True)
+	device2 = Column(Boolean, index=True)
+	device3 = Column(Boolean, index=True)
 
 	prototype = relationship('Prototype', back_populates='records')
 
