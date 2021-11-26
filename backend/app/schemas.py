@@ -24,6 +24,9 @@ class RecordCreate(BaseModel):
 	ph: float
 	temperature: float
 	humidity: Optional[float] = None
+	device1: bool = False
+	device2: bool = False
+	device3: bool = False
 	datetime_creation: str = ''
 	
 
