@@ -111,8 +111,7 @@ String getSensorValues(){
   float ph = random(2, 12);
   float temp = random(5, 35);
   int humidity = random(5,95);
-  Led1 = digitalRead(LED1_PIN);
-
+  
   String data = "{\"prototype_id\": \"" + String(prototypeId) + 
       "\",\"ph\": " + String(ph) + 
       ",\"temperature\": " +  String(temp) + 
