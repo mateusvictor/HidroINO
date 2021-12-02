@@ -15,9 +15,15 @@ body {
 	margin-top: 60px;
 	margin-bottom: 60px;
 }
-input {
-	padding: 10px;
-	font-size: 20px;
+input, button {
+	padding: 15px;
+	font-size: 23px;
+	width: 100%;
+	color: white;
+	border: 2px solid black;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 15px;
 }
 
 #name {
@@ -30,7 +36,7 @@ input {
 .container {
 	max-width: 1080px;
 	margin: auto;
-	margin-top: 40px;	
+	margin-top: 5px;	
 	padding-left: 25px;
 	padding-right: 25px;
 	padding: 40px; 
@@ -60,6 +66,7 @@ h2 {
 	min-width: 324px;
 	margin-bottom: 30px;font-family: 'Open Sans', sans-serif;
 	padding: 0;
+	text-align: center;
 	/*background-color: blue;*/
 }
 
