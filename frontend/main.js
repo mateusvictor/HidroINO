@@ -1,11 +1,11 @@
 // main.js
 // Mateus Victor - 2021
 
-const updateTime = 3000 // Intervalo a cada atualização do dashboard em ms
+const updateTime = 4000 // Intervalo a cada atualização do dashboard em ms
 const prototypeId = "9d0efcbb-1c6f-4486-8066-19c9cb2352fd" // ID do protótipo HidroINO
 
 // const url = 'http://localhost:8000/record-last/' + String(prototypeId) + '/'; // Rodando localmente
-const url = 'http://hidroino.herokuapp.com/record-last/' + String(prototypeId) + '/' // Rodando com Heroku
+const url = 'https://hidroino.herokuapp.com/record-last/' + String(prototypeId) + '/' // Rodando com Heroku
 let led1 = 0, sol1 = 0, sol2 = 0;
 //const prototypeId = 1;
 let counter = 1
