@@ -1,7 +1,8 @@
-#include <ArduinoJson.h>
 #include "WiFiEsp.h"
 
-
+#define LED1_PIN 8
+#define SOL1_PIN 12
+#define SOL2_PIN 13
 
 // {"prototype_id":"9d0efcbb-1c6f-4486-8066-19c9cb2352fd","ph":7.1,"temperature":27.0,"humidity":27.0,"device1":false,"device2":false,"device3":false,"datetime_creation":"26-11-2021 18:15:17","id":1}
 // USAR INDEXOF!!!
@@ -19,6 +20,9 @@ int status = WL_IDLE_STATUS;     // the Wifi radio's status
 char server[] = "hidroino.herokuapp.com";
 String prototypeId = "9d0efcbb-1c6f-4486-8066-19c9cb2352fd";
 
+// Devices states
+int Solenoide1 = 0, Solenoide2 = 0, Led1 = 0;
+
 unsigned long lastConnectionTime = 0;         // last time you connected to the server, in milliseconds
 const unsigned long postingInterval = 3000; // delay between updates, in milliseconds
 
@@ -33,6 +37,7 @@ void setup()
   Serial1.begin(9600);
   // initialize ESP module
   WiFi.init(&Serial1);
+  pinMode(LED1_PIN, OUTPUT);
 
   // check for the presence of the shield
   if (WiFi.status() == WL_NO_SHIELD) {
@@ -68,11 +73,22 @@ void loop()
     if (response.length() > 5){
         float ph = 123;
         Serial.println(ph);
-           
-        // JsonObject jsonObj = doc.as<JsonObject>();
-        Serial.print("pH: ");
-        Serial.println(ph);
+        Led1 = getValueFromJson(response, "device1");
+        digitalWrite(LED1_PIN, Led1);
     }
+  }
+
+  
+}
+
+int getValueFromJson(String data, String key){
+  int keyIndex = data.indexOf(key);
+  Serial.println(data.charAt(keyIndex+9));
+  if (data.charAt(keyIndex+9) == 't'){
+    return 1;
+  }
+  else {
+    return 0;
   }
 }
 
@@ -91,7 +107,7 @@ String httpGETRequest()
   if (client.connect(server, 80)) {
     Serial.println("Connecting...");
     
-    // send the HTTP PUT request
+    // send the HTTP GET request
     client.println("GET /record-last/" + prototypeId +  "/ HTTP/1.1");
     client.println("Host: hidroino.herokuapp.com");
     client.println("Accept: application/json");

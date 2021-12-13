@@ -1,4 +1,4 @@
-int ph_pin = A0; //This is the pin number connected to Po
+int ph_pin = A0; 
 
 void setup() {
   Serial.begin(9600);
