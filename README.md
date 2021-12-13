@@ -59,7 +59,7 @@ Documentação da API gerada automaticamente com Swagger:
 * Serviço de hospedagem da API: <a href="https://www.heroku.com/">Heroku</a>
 	* Link da documentação com Swagger: <a href="https://hidroino.herokuapp.com/docs">hidroino.herokuapp.com/docs</a>
 
-* Não foi realizada a hospedagem do front-end da aplicação, mas uma idéia a ser considerada futuramente é a hospedagem com o <a href="https://pages.github.com/">GitHub Pages</a>
+* Não foi realizada a hospedagem do front-end da aplicação, mas uma ideia a ser considerada futuramente é a hospedagem com o <a href="https://pages.github.com/">GitHub Pages</a>
 
 * Link da monografia do TCC com informações sobre os sensores utilizados, esquema do circuito principal, objetivos, dentre outras: <a href="">Em breve!</a>
 
