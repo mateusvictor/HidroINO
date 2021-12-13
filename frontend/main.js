@@ -1,15 +1,20 @@
 // main.js
 // Mateus Victor - 2021
 
-const updateTime = 6000 // Intervalo a cada atualização do dashboard em ms
-const prototypeId = "d4b0bd9b-2e12-48f0-8499-59033384d034" // ID do protótipo HidroINO
+const updateTime = 3000 // Intervalo a cada atualização do dashboard em ms
+const prototypeId = "9d0efcbb-1c6f-4486-8066-19c9cb2352fd" // ID do protótipo HidroINO
 
 // const url = 'http://localhost:8000/record-last/' + String(prototypeId) + '/'; // Rodando localmente
 const url = 'http://hidroino.herokuapp.com/record-last/' + String(prototypeId) + '/' // Rodando com Heroku
-
+let led1 = 0, sol1 = 0, sol2 = 0;
 //const prototypeId = 1;
-
 let counter = 1
+let buttonsChanged = false;
+
+let led1Btn = document.getElementById('led1')
+let sol1Btn = document.getElementById('sol1')
+let sol2Btn = document.getElementById('sol2')
+
 
 let main = setInterval(requestAPI, updateTime) // A cada `updateTime` ms a função `requestAPI` é chamada. 	
 function requestAPI(){
@@ -18,9 +23,8 @@ function requestAPI(){
 	fetch(url)
 	    .then(res => res.json())
 	    .then(data => response = data)
-	    .then(() => update(response))
+	    .then(() => update(response));
 }
-
 
 function update(response){
 	// Seleciona e atualiza os valores presentes nos elementos `gauge`
@@ -30,9 +34,9 @@ function update(response){
 	// 	ph: 6.1,
 	// 	temperature: 30.1,
 	// 	humidity: 71,
-	// 	datetime_creation: "11-09-2021 17:30:03"
+	// 	datetime_creation: "11-09-2021 17:30:03",
+	//  device1: true
 	// }
-
 
 	let phGauge = document.getElementById('ph').children;
 	let tempGauge = document.getElementById('temp').children;
@@ -44,6 +48,8 @@ function update(response){
 	//
 	// * div-value ou Gauge[2] é o elemento que possui a valor do medidor
 
+
+	//led1 = response['device1'], sol1 = response['device2'], sol2 = response['device3']	
 
 	tempPercentage = tempGauge[0], tempValue = tempGauge[2];
 	phPercentage = phGauge[0], phValue = phGauge[2];
@@ -62,15 +68,31 @@ function update(response){
 	console.log(response)
 	console.log('\n')
 
+	updateDevice(led1Btn, response['device1'])
+	updateDevice(sol1Btn, response['device2'])
+	updateDevice(sol2Btn, response['device3'])
+	
 	counter += 1
 }
 
+
+function updateDevice(button, state){
+	let text = String(button.innerText).split(' O')[0]
+	if (state){
+		text += ' ON'
+		button.style['background-color'] = '#5cb85c'
+	}
+	else {
+		text += ' OFF'
+		button.style['background-color'] = '#F4654E'
+	}
+	button.innerHTML = text
+}
 
 function moveGauge(actualPercent, toMove){
 	// Realiza a animação de crescimento/decrescimento da barra de progresso do medidor
 	// actualPercent: porcentagem atual de preenchimento da barra da progresso
 	// toMove: porcentagem desejada de preenchimento da barra de progresso
-
 
 	let actualDeg = Math.floor(strToFloat(actualPercent.style['transform'])); // Angulação, em graus, da barra de progresso
 	let newDeg = Math.floor(toMove * 180);
@@ -97,6 +119,7 @@ function moveGauge(actualPercent, toMove){
 	}
 	actualPercent.style['transform'] = 'rotate(' + String(newDeg) + 'deg)';
 }
+
 
 function strToFloat(degrees){
 	return degrees.slice(7, degrees.indexOf('d'))
