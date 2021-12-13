@@ -40,7 +40,7 @@ pip install -r requirements.txt
 
 De uma forma simples e intuiva, o diagrama abaixo mostra a visão geral da aplicação:
 
-<img src="https://github.com/mateusvictor/TCC-Backend/blob/main/screenshots/geral.jpg">
+<img src="https://github.com/mateusvictor/HidroINO/blob/main/screenshots/geral.jpg">
 
 Inicialmente, o código presente no hardware Arduino envia uma requisição HTTP do tipo POST para o servidor no endpoint ```/records/```. O corpo da respectiva requisição contém as informações para criação de um novo registro da tabela ```records```.
 
@@ -48,11 +48,11 @@ Após a validação e inscrição do novo registro no banco de dados, as informa
 
 Dashboard da aplicação:
 
-<img src="https://github.com/mateusvictor/TCC-Backend/blob/main/screenshots/dashboard.jpg">
+<img src="https://github.com/mateusvictor/HidroINO/blob/main/screenshots/dashboard.jpg">
 
 Documentação da API gerada automaticamente com Swagger:
 
-<img src="https://github.com/mateusvictor/TCC-Backend/blob/main/screenshots/swagger-ui.jpg">
+<img src="https://github.com/mateusvictor/HidroINO/blob/main/screenshots/swagger-ui.jpg">
 
 ### Skills adquiridas durante o desenvolvimento do projeto
 * Criação de APIs utilizando o framework FastAPI;
